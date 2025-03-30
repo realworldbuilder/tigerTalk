@@ -1,10 +1,10 @@
-<a href="https://tigertalk.com/">
-  <img alt="Tiger Talk – AI-powered voice note taking in seconds." src="/public/images/og-image.png">
+<a href="https://tigertalk.app/">
+  <img alt="Tiger Talk – AI-powered voice note taking in seconds." src="public/images/og-image.png">
   <h1 align="center">Tiger Talk</h1>
 </a>
 
 <p align="center">
-  Generate action items from your notes in seconds. Powered by Convex, Together.ai, and Whisper.
+  Generate Daily Construction Reports and Action Items from your voice notes in seconds. Powered by Convex, Together.ai, and Whisper.
 </p>
 
 <p align="center">
