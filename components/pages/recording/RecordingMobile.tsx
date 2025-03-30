@@ -5,7 +5,7 @@ import { api } from '@/convex/_generated/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { Doc } from '@/convex/_generated/dataModel';
 import ConstructionReportDetails from './ConstructionReportDetails';
-import { XCircle } from 'lucide-react';
+import { XCircle, Mail } from 'lucide-react';
 
 export default function RecordingMobile({
   note,
@@ -14,7 +14,7 @@ export default function RecordingMobile({
   note: Doc<'notes'>;
   actionItems: Doc<'actionItems'>[];
 }) {
-  const { transcription, title, _creationTime, isConstructionReport } = note;
+  const { transcription, title, _creationTime, isConstructionReport, summary, manpower, weather, delays, openIssues, equipment } = note;
   const [transcriptOpen, setTranscriptOpen] = useState<boolean>(true);
   const [reportOpen, setReportOpen] = useState<boolean>(false);
   const [actionItemOpen, setActionItemOpen] = useState<boolean>(false);
@@ -26,12 +26,64 @@ export default function RecordingMobile({
     mutateActionItems({ id: actionId });
   }
 
+  function shareViaEmail() {
+    // Format the action items as a list
+    const actionItemsText = actionItems.map(item => `- ${item.task}`).join('\n');
+    
+    // Build the report content
+    let emailBody = `${title}\n\n`;
+    
+    if (summary) {
+      emailBody += `SUMMARY:\n${summary}\n\n`;
+    }
+    
+    // Add construction report details if available
+    if (isConstructionReport) {
+      if (manpower && manpower !== "Not mentioned") {
+        emailBody += `MANPOWER:\n${manpower}\n\n`;
+      }
+      
+      if (weather && weather !== "Not mentioned") {
+        emailBody += `WEATHER:\n${weather}\n\n`;
+      }
+      
+      if (delays && delays !== "Not mentioned") {
+        emailBody += `DELAYS:\n${delays}\n\n`;
+      }
+      
+      if (openIssues && openIssues !== "Not mentioned") {
+        emailBody += `OPEN ISSUES:\n${openIssues}\n\n`;
+      }
+      
+      if (equipment && equipment !== "Not mentioned") {
+        emailBody += `EQUIPMENT:\n${equipment}\n\n`;
+      }
+    }
+    
+    if (actionItems.length > 0) {
+      emailBody += `ACTION ITEMS:\n${actionItemsText}\n\n`;
+    }
+    
+    // Create mailto link with subject and body
+    const mailtoLink = `mailto:?subject=${encodeURIComponent(title || 'Construction Report')}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open the email client
+    window.open(mailtoLink, '_blank');
+  }
+
   return (
     <div className="md:hidden">
-      <div className="max-width my-5 flex items-center justify-center">
+      <div className="max-width my-5 flex items-center justify-between px-4">
         <h1 className="leading text-center text-xl font-medium leading-[114.3%] tracking-[-0.75px] text-dark md:text-2xl">
           {title ?? 'Untitled Note'}
         </h1>
+        <button 
+          onClick={shareViaEmail}
+          className="flex items-center justify-center rounded-full bg-orange-500 p-2 text-white"
+          aria-label="Share via email"
+        >
+          <Mail className="h-5 w-5" />
+        </button>
       </div>
       <div className="grid w-full grid-cols-3">
         <button
