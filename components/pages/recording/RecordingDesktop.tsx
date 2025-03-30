@@ -5,6 +5,7 @@ import { useMutation } from 'convex/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import ConstructionReportDetails from './ConstructionReportDetails';
 
 export default function RecordingDesktop({
   note,
@@ -20,8 +21,10 @@ export default function RecordingDesktop({
     transcription,
     title,
     _creationTime,
+    isConstructionReport,
   } = note;
   const [originalIsOpen, setOriginalIsOpen] = useState<boolean>(true);
+  const [showReport, setShowReport] = useState<boolean>(false);
 
   const mutateActionItems = useMutation(api.notes.removeActionItem);
 
@@ -29,6 +32,9 @@ export default function RecordingDesktop({
     // Trigger a mutation to remove the item from the list
     mutateActionItems({ id: actionId });
   }
+
+  // Determine if we should show the construction report option
+  const hasConstructionReport = isConstructionReport === true;
 
   return (
     <div className="hidden md:block">
@@ -48,32 +54,64 @@ export default function RecordingDesktop({
         </div>
       </div>
       <div className="mt-[18px] grid h-fit w-full grid-cols-2 px-4 py-4 md:px-6 lg:px-8">
-        <div className="flex w-full items-center justify-center gap-[50px] border-r  lg:gap-[70px]">
+        <div className="flex w-full items-center justify-center gap-[50px] border-r lg:gap-[70px]">
           <div className="flex items-center gap-4">
             <button
+              onClick={() => {
+                setOriginalIsOpen(true);
+                setShowReport(false);
+              }}
               className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
-                originalIsOpen ? 'opacity-100' : 'opacity-40'
+                originalIsOpen && !showReport ? 'opacity-100' : 'opacity-40'
               } transition-all duration-300`}
             >
               Transcript
             </button>
             <div
-              onClick={() => setOriginalIsOpen(!originalIsOpen)}
+              onClick={() => {
+                if (!showReport) {
+                  setOriginalIsOpen(!originalIsOpen);
+                } else {
+                  setShowReport(false);
+                  setOriginalIsOpen(false);
+                }
+              }}
               className="flex h-[20px] w-[36px] cursor-pointer items-center rounded-full bg-dark px-[1px]"
             >
               <div
                 className={`h-[18px] w-4 rounded-[50%] bg-light ${
-                  originalIsOpen ? 'translate-x-0' : 'translate-x-[18px]'
+                  originalIsOpen || showReport ? 'translate-x-0' : 'translate-x-[18px]'
                 } transition-all duration-300`}
               />
             </div>
             <button
+              onClick={() => {
+                setOriginalIsOpen(false);
+                setShowReport(false);
+              }}
               className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
-                !originalIsOpen ? 'opacity-100' : 'opacity-40'
+                !originalIsOpen && !showReport ? 'opacity-100' : 'opacity-40'
               } transition-all duration-300`}
             >
               Summary
             </button>
+            
+            {hasConstructionReport && (
+              <>
+                <div className="mx-2">|</div>
+                <button
+                  onClick={() => {
+                    setShowReport(true);
+                    setOriginalIsOpen(false);
+                  }}
+                  className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
+                    showReport ? 'opacity-100' : 'opacity-40'
+                  } transition-all duration-300`}
+                >
+                  Construction Report
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div className="text-center">
@@ -85,7 +123,11 @@ export default function RecordingDesktop({
       <div className="grid h-full w-full grid-cols-2 px-4 md:px-6 lg:px-8">
         <div className="relative min-h-[70vh] w-full border-r px-4 py-3 text-justify text-sm md:text-base lg:text-lg font-[300] leading-[114.3%] tracking-[-0.6px]">
           {transcription ? (
-            <div className="">{originalIsOpen ? transcription : summary}</div>
+            showReport ? (
+              <ConstructionReportDetails note={note} />
+            ) : (
+              <div className="">{originalIsOpen ? transcription : summary}</div>
+            )
           ) : (
             // Loading state for transcript
             <ul className="animate-pulse space-y-3">

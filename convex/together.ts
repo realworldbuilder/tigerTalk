@@ -24,6 +24,7 @@ const client = Instructor({
   mode: 'JSON_SCHEMA',
 });
 
+// Updated schema to include construction report fields
 const NoteSchema = z.object({
   title: z
     .string()
@@ -39,6 +40,30 @@ const NoteSchema = z.object({
     .describe(
       'A list of action items from the voice note, short and to the point. Make sure all action item lists are fully resolved if they are nested',
     ),
+  // Construction report fields
+  isConstructionReport: z
+    .boolean()
+    .describe('True if this appears to be a construction daily report, false otherwise'),
+  manpower: z
+    .string()
+    .optional()
+    .describe('Information about workers, staffing, or labor on the construction site'),
+  weather: z
+    .string()
+    .optional()
+    .describe('Information about weather conditions affecting the construction site'),
+  delays: z
+    .string()
+    .optional()
+    .describe('Information about delays, setbacks or schedule issues on the project'),
+  openIssues: z
+    .string()
+    .optional()
+    .describe('Information about unresolved problems, concerns or issues requiring attention'),
+  equipment: z
+    .string()
+    .optional()
+    .describe('Information about equipment used, equipment issues, or equipment needs'),
 });
 
 export const chat = internalAction({
@@ -72,13 +97,24 @@ export const chat = internalAction({
           messages: [
             {
               role: 'system',
-              content: `The following is a transcript of a voice message. Extract a title, summary, and action items from it. 
+              content: `The following is a transcript of a voice message. Extract a title, summary, action items, and if it appears to be a construction daily report, extract construction-specific information.
+              
               The response should be formatted in JSON following this exact structure:
               {
                 "title": "Short descriptive title of what the voice message is about",
                 "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
-                "actionItems": ["Action item 1", "Action item 2", ...]
+                "actionItems": ["Action item 1", "Action item 2", ...],
+                "isConstructionReport": boolean (true/false),
+                "manpower": "Information about workers, staffing, or labor (only if construction report)",
+                "weather": "Information about weather conditions (only if construction report)",
+                "delays": "Information about delays or schedule issues (only if construction report)",
+                "openIssues": "Information about unresolved problems or issues (only if construction report)",
+                "equipment": "Information about equipment used or needed (only if construction report)"
               }
+              
+              If the voice message is NOT a construction report, only include title, summary, actionItems, and set isConstructionReport to false.
+              If it IS a construction report, include all fields and set values appropriately based on the transcript.
+              Use "Not mentioned" for construction fields that aren't explicitly mentioned in the transcript.
               Make sure to only include valid JSON without markdown formatting or any other text.`
             },
             { role: 'user', content: finalTranscript }
@@ -109,6 +145,12 @@ export const chat = internalAction({
             summary: extractedData.summary,
             actionItems: extractedData.actionItems,
             title: extractedData.title,
+            isConstructionReport: extractedData.isConstructionReport || false,
+            manpower: extractedData.manpower || "Not mentioned",
+            weather: extractedData.weather || "Not mentioned",
+            delays: extractedData.delays || "Not mentioned",
+            openIssues: extractedData.openIssues || "Not mentioned",
+            equipment: extractedData.equipment || "Not mentioned",
           });
           
           return; // Exit if successful
@@ -125,13 +167,24 @@ export const chat = internalAction({
           messages: [
             {
               role: 'system',
-              content: `The following is a transcript of a voice message. Extract a title, summary, and action items from it. 
+              content: `The following is a transcript of a voice message. Extract a title, summary, action items, and if it appears to be a construction daily report, extract construction-specific information.
+              
               The response should be formatted in JSON following this exact structure:
               {
                 "title": "Short descriptive title of what the voice message is about",
                 "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
-                "actionItems": ["Action item 1", "Action item 2", ...]
+                "actionItems": ["Action item 1", "Action item 2", ...],
+                "isConstructionReport": boolean (true/false),
+                "manpower": "Information about workers, staffing, or labor (only if construction report)",
+                "weather": "Information about weather conditions (only if construction report)",
+                "delays": "Information about delays or schedule issues (only if construction report)",
+                "openIssues": "Information about unresolved problems or issues (only if construction report)",
+                "equipment": "Information about equipment used or needed (only if construction report)"
               }
+              
+              If the voice message is NOT a construction report, only include title, summary, actionItems, and set isConstructionReport to false.
+              If it IS a construction report, include all fields and set values appropriately based on the transcript.
+              Use "Not mentioned" for construction fields that aren't explicitly mentioned in the transcript.
               Make sure to only include valid JSON without markdown formatting or any other text.`
             },
             { role: 'user', content: finalTranscript }
@@ -165,6 +218,12 @@ export const chat = internalAction({
           summary: extractedData.summary,
           actionItems: extractedData.actionItems,
           title: extractedData.title,
+          isConstructionReport: extractedData.isConstructionReport || false,
+          manpower: extractedData.manpower || "Not mentioned",
+          weather: extractedData.weather || "Not mentioned",
+          delays: extractedData.delays || "Not mentioned",
+          openIssues: extractedData.openIssues || "Not mentioned",
+          equipment: extractedData.equipment || "Not mentioned",
         });
       }
     } catch (e: any) {
@@ -174,6 +233,12 @@ export const chat = internalAction({
         summary: 'Summary failed to generate. Please try again or contact support if this persists.',
         actionItems: [],
         title: 'Voice Note ' + new Date().toLocaleDateString(),
+        isConstructionReport: false,
+        manpower: "Not mentioned",
+        weather: "Not mentioned",
+        delays: "Not mentioned",
+        openIssues: "Not mentioned",
+        equipment: "Not mentioned",
       });
     }
   },
@@ -196,13 +261,25 @@ export const saveSummary = internalMutation({
     summary: v.string(),
     title: v.string(),
     actionItems: v.array(v.string()),
+    isConstructionReport: v.boolean(),
+    manpower: v.string(),
+    weather: v.string(),
+    delays: v.string(),
+    openIssues: v.string(),
+    equipment: v.string(),
   },
   handler: async (ctx, args) => {
-    const { id, summary, actionItems, title } = args;
+    const { id, summary, actionItems, title, isConstructionReport, manpower, weather, delays, openIssues, equipment } = args;
     await ctx.db.patch(id, {
       summary: summary,
       title: title,
       generatingTitle: false,
+      isConstructionReport: isConstructionReport,
+      manpower: manpower,
+      weather: weather,
+      delays: delays,
+      openIssues: openIssues,
+      equipment: equipment,
     });
 
     let note = await ctx.db.get(id);

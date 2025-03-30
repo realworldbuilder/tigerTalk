@@ -13,6 +13,13 @@ export default defineSchema({
     generatingTranscript: v.boolean(),
     generatingTitle: v.boolean(),
     generatingActionItems: v.boolean(),
+    // Construction report specific fields
+    manpower: v.optional(v.string()),
+    weather: v.optional(v.string()),
+    delays: v.optional(v.string()),
+    openIssues: v.optional(v.string()),
+    equipment: v.optional(v.string()),
+    isConstructionReport: v.optional(v.boolean()),
   })
     .index('by_userId', ['userId'])
     .vectorIndex('by_embedding', {

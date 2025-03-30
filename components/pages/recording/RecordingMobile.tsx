@@ -4,6 +4,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { Doc } from '@/convex/_generated/dataModel';
+import ConstructionReportDetails from './ConstructionReportDetails';
 
 export default function RecordingMobile({
   note,
@@ -12,10 +13,11 @@ export default function RecordingMobile({
   note: Doc<'notes'>;
   actionItems: Doc<'actionItems'>[];
 }) {
-  const { summary, transcription, title, _creationTime } = note;
+  const { summary, transcription, title, _creationTime, isConstructionReport } = note;
   const [transcriptOpen, setTranscriptOpen] = useState<boolean>(true);
   const [summaryOpen, setSummaryOpen] = useState<boolean>(false);
   const [actionItemOpen, setActionItemOpen] = useState<boolean>(false);
+  const [constructionReportOpen, setConstructionReportOpen] = useState<boolean>(false);
 
   const mutateActionItems = useMutation(api.notes.removeActionItem);
 
@@ -24,6 +26,9 @@ export default function RecordingMobile({
     mutateActionItems({ id: actionId });
   }
 
+  // Determine if we should show the construction report tab
+  const showConstructionReport = isConstructionReport === true;
+
   return (
     <div className="md:hidden">
       <div className="max-width my-5 flex items-center justify-center">
@@ -31,12 +36,13 @@ export default function RecordingMobile({
           {title ?? 'Untitled Note'}
         </h1>
       </div>
-      <div className="grid w-full grid-cols-3 ">
+      <div className={`grid w-full ${showConstructionReport ? 'grid-cols-4' : 'grid-cols-3'}`}>
         <button
           onClick={() => (
             setTranscriptOpen(!transcriptOpen),
             setActionItemOpen(false),
-            setSummaryOpen(false)
+            setSummaryOpen(false),
+            setConstructionReportOpen(false)
           )}
           className={`py-[12px] text-sm sm:text-base leading-[114.3%] tracking-[-0.425px] ${
             transcriptOpen ? 'action-btn-active' : 'action-btn'
@@ -48,7 +54,8 @@ export default function RecordingMobile({
           onClick={() => (
             setTranscriptOpen(false),
             setActionItemOpen(false),
-            setSummaryOpen(!summaryOpen)
+            setSummaryOpen(!summaryOpen),
+            setConstructionReportOpen(false)
           )}
           className={`py-[12px] text-sm sm:text-base leading-[114.3%] tracking-[-0.425px] ${
             summaryOpen ? 'action-btn-active' : 'action-btn'
@@ -60,7 +67,8 @@ export default function RecordingMobile({
           onClick={() => (
             setTranscriptOpen(false),
             setActionItemOpen(!actionItemOpen),
-            setSummaryOpen(false)
+            setSummaryOpen(false),
+            setConstructionReportOpen(false)
           )}
           className={`py-[12px] text-sm sm:text-base leading-[114.3%] tracking-[-0.425px] ${
             actionItemOpen ? 'action-btn-active' : 'action-btn'
@@ -68,6 +76,21 @@ export default function RecordingMobile({
         >
           Action Items
         </button>
+        {showConstructionReport && (
+          <button
+            onClick={() => (
+              setTranscriptOpen(false),
+              setActionItemOpen(false),
+              setSummaryOpen(false),
+              setConstructionReportOpen(!constructionReportOpen)
+            )}
+            className={`py-[12px] text-sm sm:text-base leading-[114.3%] tracking-[-0.425px] ${
+              constructionReportOpen ? 'action-btn-active' : 'action-btn'
+            }`}
+          >
+            Report
+          </button>
+        )}
       </div>
       <div className="w-full">
         {transcriptOpen && (
@@ -127,6 +150,9 @@ export default function RecordingMobile({
               </div>
             </div>{' '}
           </div>
+        )}
+        {constructionReportOpen && showConstructionReport && (
+          <ConstructionReportDetails note={note} />
         )}
         <Toaster position="bottom-left" reverseOrder={false} />
       </div>
