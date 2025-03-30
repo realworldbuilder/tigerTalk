@@ -19,12 +19,12 @@ const Banner = () => {
           Construction Reports
         </h1>
         <p className="mt-4 text-center text-base font-light tracking-tight sm:mt-6 sm:text-xl lg:mt-8 lg:text-3xl">
-          cowboyTalk transforms your voice notes into{' '}
+          Tiger Talk transforms your voice notes into{' '}
           <span className="font-bold">
             rich, detailed <br className="hidden lg:inline-block" />
             reports
           </span>{' '}
-          and <span className="font-bold">clear, actionable tasks</span>—cowboy-style.
+          and <span className="font-bold">clear, actionable tasks</span> using AI.
         </p>
         <p className="mt-2 text-center text-sm font-medium text-gray-700 sm:text-base lg:text-xl">
           A new way to get sh*t done. Easier than beating the Gamecocks.

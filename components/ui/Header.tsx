@@ -21,7 +21,7 @@ export default async function Header() {
             />
           </div>
           <h1 className="text-base font-medium text-[#25292F] sm:text-lg md:text-xl lg:text-2xl">
-            cowboyTalk
+            Tiger Talk
           </h1>
         </Link>
         {/* navigation */}

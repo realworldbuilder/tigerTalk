@@ -5,11 +5,11 @@ import Footer from '@/components/ui/Footer';
 import { Toaster } from 'react-hot-toast';
 import PlausibleProvider from 'next-plausible';
 
-let title = 'cowboyTalk - AI-Powered Daily Construction Reports';
+let title = 'Tiger Talk - AI-Powered Daily Construction Reports';
 let description = 'Generate construction reports and actionable tasks from your voice notes';
-let url = 'https://cowboytalk.com';
-let ogimage = 'https://cowboytalk.com/images/og-image.png';
-let sitename = 'cowboytalk.com';
+let url = 'https://tigertalk.app';
+let ogimage = 'https://tigertalk.app/images/og-image.png';
+let sitename = 'tigertalk.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <PlausibleProvider domain="cowboytalk.com" />
+        <PlausibleProvider domain="tigertalk.app" />
       </head>
       <body>
         <ConvexClientProvider>

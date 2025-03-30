@@ -1,6 +1,6 @@
-<a href="https://cowboytalk.com/">
-  <img alt="cowboyTalk – AI-powered construction reports in seconds." src="public/images/og-image.png">
-  <h1 align="center">cowboyTalk</h1>
+<a href="https://tigertalk.app/">
+  <img alt="Tiger Talk – AI-powered construction reports in seconds." src="public/images/og-image.png">
+  <h1 align="center">Tiger Talk</h1>
 </a>
 
 <p align="center">
@@ -53,7 +53,7 @@ You can deploy this template by setting up the following services and adding the
 - [ ] Be able to have this as a PWA if there's an easy step to do that
 - [ ] Prompt engineer the summary a little more to be useful for construction reports
 - [ ] Add a Notion integration to be able to get the transcript + summary + action items on there
-- [ ] UI updates to make it look a little nicer with cowboy-themed elements
+- [ ] UI updates to make it look a little nicer with construction-themed elements
 - [ ] Be able to edit action items after the fact and set a due date for them
 - [ ] Account for layout shift on the dashboard page when refreshing – show a loading state on content?
 - [ ] Make action items animate out + make checkbox rounded + add a little check icon on hover
