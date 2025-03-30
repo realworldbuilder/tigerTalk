@@ -5,6 +5,7 @@ import { usePreloadedQueryWithAuth } from '@/lib/hooks';
 import { Preloaded, useMutation } from 'convex/react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { XCircle } from 'lucide-react';
 
 export default function ActionItemsPage({
   preloadedItems,
@@ -38,26 +39,24 @@ export default function ActionItemsPage({
             key={idx}
           >
             <div className="flex w-full justify-center">
-              <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
+              <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 hover:bg-orange-50">
                 <div className="flex items-center">
-                  <input
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        removeActionItem(item._id);
-                        toast.success('1 task completed.');
-                      }
+                  <button
+                    onClick={() => {
+                      removeActionItem(item._id);
+                      toast.success('1 task completed.');
                     }}
-                    type="checkbox"
-                    checked={false}
-                    className="mr-4 h-5 w-5 cursor-pointer rounded-sm border-2 border-gray-300"
-                  />
-                  <label className="">{item?.task}</label>
+                    className="mr-4 h-6 w-6 flex items-center justify-center rounded-full border-2 border-orange-400 text-orange-400 hover:bg-orange-400 hover:text-white transition-colors"
+                  >
+                    <XCircle className="h-5 w-5" />
+                  </button>
+                  <label className="text-orange-700">{item?.task}</label>
                 </div>
                 <div className="flex justify-between gap-3 md:mt-2">
-                  <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
+                  <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-orange-500 opacity-80">
                     {new Date(item?._creationTime).toLocaleDateString()}
                   </p>
-                  <p className="truncate text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
+                  <p className="truncate text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-orange-500 opacity-80">
                     From: {item?.title}
                   </p>
                 </div>
@@ -72,8 +71,8 @@ export default function ActionItemsPage({
                 You currently have no action items.
               </p>
               <Link
-                className="rounded-[7px] bg-dark px-5 py-3 text-base md:text-lg leading-[79%] tracking-[-0.75px] text-light"
-                style={{ boxShadow: ' 0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}
+                className="rounded-[7px] bg-orange-500 px-5 py-3 text-base md:text-lg leading-[79%] tracking-[-0.75px] text-white"
+                style={{ boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.15)' }}
                 href="/record"
               >
                 Record your first voice note

@@ -5,7 +5,7 @@ export default function ConstructionReportDetails({
 }: {
   note: Doc<'notes'>;
 }) {
-  const { manpower, weather, delays, openIssues, equipment } = note;
+  const { manpower, weather, delays, openIssues, equipment, summary } = note;
 
   // Only show sections that have content
   const hasManpower = manpower && manpower !== "Not mentioned";
@@ -17,7 +17,15 @@ export default function ConstructionReportDetails({
   return (
     <div className="relative mt-2 min-h-[70vh] w-full px-4 py-3 text-sm sm:text-base font-light">
       <div className="space-y-4">
-        <h2 className="text-lg font-medium">Construction Report Details</h2>
+        {/* Summary section at the top */}
+        <div className="text-justify mb-6">
+          {summary}
+        </div>
+        
+        {/* Construction report details */}
+        {(hasManpower || hasWeather || hasDelays || hasOpenIssues || hasEquipment) && (
+          <h2 className="text-lg font-medium">Construction Report Details</h2>
+        )}
         
         {hasManpower && (
           <div className="rounded-lg border border-gray-200 p-3">

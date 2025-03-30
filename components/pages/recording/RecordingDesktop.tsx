@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import ConstructionReportDetails from './ConstructionReportDetails';
+import { XCircle } from 'lucide-react';
 
 export default function RecordingDesktop({
   note,
@@ -17,14 +18,11 @@ export default function RecordingDesktop({
   const {
     generatingActionItems,
     generatingTitle,
-    summary,
     transcription,
     title,
     _creationTime,
-    isConstructionReport,
   } = note;
-  const [originalIsOpen, setOriginalIsOpen] = useState<boolean>(true);
-  const [showReport, setShowReport] = useState<boolean>(false);
+  const [showTranscript, setShowTranscript] = useState<boolean>(true);
 
   const mutateActionItems = useMutation(api.notes.removeActionItem);
 
@@ -32,9 +30,6 @@ export default function RecordingDesktop({
     // Trigger a mutation to remove the item from the list
     mutateActionItems({ id: actionId });
   }
-
-  // Determine if we should show the construction report option
-  const hasConstructionReport = isConstructionReport === true;
 
   return (
     <div className="hidden md:block">
@@ -57,61 +52,31 @@ export default function RecordingDesktop({
         <div className="flex w-full items-center justify-center gap-[50px] border-r lg:gap-[70px]">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => {
-                setOriginalIsOpen(true);
-                setShowReport(false);
-              }}
+              onClick={() => setShowTranscript(true)}
               className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
-                originalIsOpen && !showReport ? 'opacity-100' : 'opacity-40'
+                showTranscript ? 'opacity-100' : 'opacity-40'
               } transition-all duration-300`}
             >
               Transcript
             </button>
             <div
-              onClick={() => {
-                if (!showReport) {
-                  setOriginalIsOpen(!originalIsOpen);
-                } else {
-                  setShowReport(false);
-                  setOriginalIsOpen(false);
-                }
-              }}
+              onClick={() => setShowTranscript(!showTranscript)}
               className="flex h-[20px] w-[36px] cursor-pointer items-center rounded-full bg-dark px-[1px]"
             >
               <div
                 className={`h-[18px] w-4 rounded-[50%] bg-light ${
-                  originalIsOpen || showReport ? 'translate-x-0' : 'translate-x-[18px]'
+                  showTranscript ? 'translate-x-0' : 'translate-x-[18px]'
                 } transition-all duration-300`}
               />
             </div>
             <button
-              onClick={() => {
-                setOriginalIsOpen(false);
-                setShowReport(false);
-              }}
+              onClick={() => setShowTranscript(false)}
               className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
-                !originalIsOpen && !showReport ? 'opacity-100' : 'opacity-40'
+                !showTranscript ? 'opacity-100' : 'opacity-40'
               } transition-all duration-300`}
             >
-              Summary
+              Report
             </button>
-            
-            {hasConstructionReport && (
-              <>
-                <div className="mx-2">|</div>
-                <button
-                  onClick={() => {
-                    setShowReport(true);
-                    setOriginalIsOpen(false);
-                  }}
-                  className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
-                    showReport ? 'opacity-100' : 'opacity-40'
-                  } transition-all duration-300`}
-                >
-                  Construction Report
-                </button>
-              </>
-            )}
           </div>
         </div>
         <div className="text-center">
@@ -123,10 +88,10 @@ export default function RecordingDesktop({
       <div className="grid h-full w-full grid-cols-2 px-4 md:px-6 lg:px-8">
         <div className="relative min-h-[70vh] w-full border-r px-4 py-3 text-justify text-sm md:text-base lg:text-lg font-[300] leading-[114.3%] tracking-[-0.6px]">
           {transcription ? (
-            showReport ? (
-              <ConstructionReportDetails note={note} />
+            showTranscript ? (
+              <div className="">{transcription}</div>
             ) : (
-              <div className="">{originalIsOpen ? transcription : summary}</div>
+              <ConstructionReportDetails note={note} />
             )
           ) : (
             // Loading state for transcript
@@ -149,16 +114,13 @@ export default function RecordingDesktop({
                   <div className="flex w-full justify-center">
                     <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
                       <div className="flex items-center">
-                        <input
-                          disabled
-                          type="checkbox"
-                          checked={false}
-                          className="mr-4 h-5 w-5 cursor-pointer rounded-sm border-2 border-gray-300"
+                        <div
+                          className="mr-4 h-6 w-6 rounded-full border-2 border-orange-300 bg-gray-200"
                         />
                         <label className="h-5 w-full rounded-full bg-gray-200" />
                       </div>
                       <div className="flex justify-between md:mt-2">
-                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
+                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-orange-400 opacity-60">
                           {new Date(Number(_creationTime)).toLocaleDateString()}
                         </p>
                       </div>
@@ -172,23 +134,21 @@ export default function RecordingDesktop({
                   key={idx}
                 >
                   <div className="flex w-full justify-center">
-                    <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
+                    <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 hover:bg-orange-50">
                       <div className="flex items-center">
-                        <input
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              removeActionItem(item._id);
-                              toast.success('1 task completed.');
-                            }
+                        <button
+                          onClick={() => {
+                            removeActionItem(item._id);
+                            toast.success('1 task completed.');
                           }}
-                          type="checkbox"
-                          checked={false}
-                          className="mr-4 h-5 w-5 cursor-pointer rounded-sm border-2 border-gray-300"
-                        />
-                        <label className="">{item?.task}</label>
+                          className="mr-4 h-6 w-6 flex items-center justify-center rounded-full border-2 border-orange-400 text-orange-400 hover:bg-orange-400 hover:text-white transition-colors"
+                        >
+                          <XCircle className="h-5 w-5" />
+                        </button>
+                        <label className="text-orange-700">{item?.task}</label>
                       </div>
                       <div className="flex justify-between md:mt-2">
-                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
+                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-orange-500 opacity-80">
                           {new Date(Number(_creationTime)).toLocaleDateString()}
                         </p>
                       </div>
@@ -198,8 +158,8 @@ export default function RecordingDesktop({
               ))}
           <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center justify-center">
             <Link
-              className="rounded-[7px] bg-dark px-5 py-3 text-base md:text-lg leading-[79%] tracking-[-0.75px] text-light lg:px-[37px]"
-              style={{ boxShadow: ' 0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}
+              className="rounded-[7px] bg-orange-500 px-5 py-3 text-base md:text-lg leading-[79%] tracking-[-0.75px] text-white lg:px-[37px]"
+              style={{ boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.15)' }}
               href="/dashboard/action-items"
             >
               View All Action Items
