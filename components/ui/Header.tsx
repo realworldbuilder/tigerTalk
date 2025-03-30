@@ -5,7 +5,7 @@ import { currentUser } from '@clerk/nextjs';
 export default async function Header() {
   const user = await currentUser();
   return (
-    <div className="container relative m-0 mx-auto py-10 md:px-10">
+    <div className="container relative m-0 mx-auto py-4 border-b border-gray-200 md:px-10">
       <div className="max-width flex items-center justify-between">
         {/* logo */}
         <Link className="flex w-fit items-center gap-[2px]" href="/dashboard">
@@ -20,19 +20,25 @@ export default async function Header() {
             NotesGPT
           </h1>
         </Link>
-        {/* buttons */}
+        {/* navigation */}
         <div className="flex w-fit items-center gap-[22px]">
           {user ? (
             <>
               <Link
                 href={'/dashboard'}
-                className="hidden cursor-pointer text-lg text-dark md:inline-block lg:text-xl"
+                className="hidden cursor-pointer text-lg text-gray-800 hover:text-gray-600 md:inline-block lg:text-xl"
               >
                 Recordings
               </Link>
               <Link
+                href={'/record'}
+                className="hidden cursor-pointer text-lg text-gray-800 hover:text-gray-600 md:inline-block lg:text-xl"
+              >
+                Record
+              </Link>
+              <Link
                 href={'/dashboard/action-items'}
-                className="hidden cursor-pointer text-lg text-dark md:inline-block lg:text-xl"
+                className="hidden cursor-pointer text-lg text-gray-800 hover:text-gray-600 md:inline-block lg:text-xl"
               >
                 Action Items
               </Link>
@@ -48,7 +54,7 @@ export default async function Header() {
             </>
           ) : (
             <Link href="/dashboard">
-              <button className="text-md primary-gradient primary-shadow rounded-lg px-5 py-1 text-center text-light md:px-10 md:py-2 md:text-xl">
+              <button className="text-md rounded-lg bg-gray-800 px-5 py-1 text-center text-white hover:bg-gray-700 md:px-10 md:py-2 md:text-xl">
                 Sign in
               </button>
             </Link>

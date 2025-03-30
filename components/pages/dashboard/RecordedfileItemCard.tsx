@@ -15,46 +15,69 @@ const RecordedfileItemCard = ({
 }) => {
   const deleteNote = useMutation(api.notes.removeNote);
 
+  const formatDate = (timestamp: number) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
   return (
     <Link
       href={`/recording/${_id}`}
-      className="mx-2 flex items-center justify-between border-[0.5px] border-[#00000050] bg-white px-[23px] py-[17px] transition hover:bg-gray-100 md:w-full"
+      className="flex items-center justify-between border-b border-gray-200 px-4 py-3 hover:bg-gray-50"
     >
-      <div className="flex w-fit items-center gap-[23px]">
-        <div className="hidden items-center justify-center rounded-[50%] bg-dark p-2.5 md:flex ">
-          <img
-            src="/icons/file_symbol.svg"
-            width={20}
-            height={20}
-            alt="file"
-            className="h-5 w-5 md:h-[20px] md:w-[20px]"
-          />
+      <div className="flex items-center space-x-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
         </div>
-        <h1
-          className="text-[17px] font-light text-dark md:text-xl lg:text-2xl"
-          style={{
-            lineHeight: '114.3%',
-            letterSpacing: '-0.6px',
-          }}
-        >
-          {title}
-        </h1>
+        <div className="overflow-hidden">
+          <h3 className="truncate text-base font-medium text-gray-800">
+            {title || "Untitled Note"}
+          </h3>
+        </div>
       </div>
-      <div className="flex w-fit items-center gap-x-[40px] 2xl:gap-x-[56px]">
-        <h3 className="hidden text-xl font-[200] leading-[114.3%] tracking-[-0.5px] md:inline-block">
-          {new Date(_creationTime).toDateString()}
-        </h3>
-        <h3 className="hidden text-xl font-[200] leading-[114.3%] tracking-[-0.5px] md:inline-block">
-          {count} tasks
-        </h3>
+      <div className="flex items-center space-x-4">
+        <span className="hidden text-sm text-gray-500 md:block">
+          {formatDate(_creationTime)}
+        </span>
         <button
           onClick={(e) => {
             e.preventDefault();
             deleteNote({ id: _id });
           }}
-          className="flex h-fit w-fit cursor-pointer items-center justify-center gap-5 bg-transparent p-2 transition hover:scale-125 md:inline-block"
+          className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-200 hover:text-gray-600"
+          aria-label="Delete note"
         >
-          <img src={'/icons/delete.svg'} alt="delete" width={20} height={20} />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
         </button>
       </div>
     </Link>

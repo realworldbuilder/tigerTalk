@@ -1,6 +1,6 @@
-<a href="https://usenotesgpt.com/">
-  <img alt="NotesGPT – AI-powered voice note taking in seconds." src="/public/images/og-image.png">
-  <h1 align="center">notesGPT</h1>
+<a href="https://tigertalk.com/">
+  <img alt="Tiger Talk – AI-powered voice note taking in seconds." src="/public/images/og-image.png">
+  <h1 align="center">Tiger Talk</h1>
 </a>
 
 <p align="center">
@@ -47,7 +47,7 @@ You can deploy this template by setting up the following services and adding the
 ## Future tasks:
 
 - [ ] Keep recording for future playback and display it on the page somewhere
-- [ ] Animate the purple microphone to be in sync with your voice
+- [ ] Animate the orange microphone to be in sync with your voice
 - [ ] Store completed action items for the future instead of fully deleting them
 - [ ] Make text/images in the landing page smaller to account for multiple screen sizes.
 - [ ] Make the search experience a little smoother overall by searching automatically on entering text

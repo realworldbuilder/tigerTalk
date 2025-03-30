@@ -48,38 +48,132 @@ export const chat = internalAction({
   },
   handler: async (ctx, args) => {
     const { transcript } = args;
+    
+    // Clean and format the transcript to prevent validation errors
+    const cleanedTranscript = transcript
+      .replace(/[\r\n]+/g, ' ') // Replace multiple newlines with space
+      .replace(/\s+/g, ' ')    // Replace multiple spaces with single space
+      .trim();                 // Trim extra whitespace
+    
+    console.log('Processing transcript with length:', cleanedTranscript.length);
+    
+    // If transcript is too long, truncate it
+    const maxLength = 16000;  // Maximum context length for most models
+    const finalTranscript = cleanedTranscript.length > maxLength 
+      ? cleanedTranscript.substring(0, maxLength) + "..." 
+      : cleanedTranscript;
 
     try {
-      const extract = await client.chat.completions.create({
-        messages: [
-          {
-            role: 'system',
-            content:
-              'The following is a transcript of a voice message. Extract a title, summary, and action items from it and answer in JSON in this format: {title: string, summary: string, actionItems: [string, string, ...]}',
-          },
-          { role: 'user', content: transcript },
-        ],
-        model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
-        response_model: { schema: NoteSchema, name: 'SummarizeNotes' },
-        max_tokens: 1000,
-        temperature: 0.6,
-        max_retries: 3,
-      });
-      const { title, summary, actionItems } = extract;
-
+      // Try using the regular OpenAI approach without Instructor
+      console.log('Attempting to generate summary with standard approach');
+      
+      try {
+        const response = await togetherai.chat.completions.create({
+          messages: [
+            {
+              role: 'system',
+              content: `The following is a transcript of a voice message. Extract a title, summary, and action items from it. 
+              The response should be formatted in JSON following this exact structure:
+              {
+                "title": "Short descriptive title of what the voice message is about",
+                "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
+                "actionItems": ["Action item 1", "Action item 2", ...]
+              }
+              Make sure to only include valid JSON without markdown formatting or any other text.`
+            },
+            { role: 'user', content: finalTranscript }
+          ],
+          model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+          temperature: 0.3,
+          max_tokens: 1000,
+        });
+        
+        // Parse the JSON response
+        const responseContent = response.choices[0]?.message.content?.trim() || '';
+        let extractedData;
+        
+        try {
+          // Find JSON portion in the response
+          const jsonMatch = responseContent.match(/\{[\s\S]*\}/);
+          const jsonStr = jsonMatch ? jsonMatch[0] : responseContent;
+          extractedData = JSON.parse(jsonStr);
+          
+          // Validate the required fields
+          if (!extractedData.title || !extractedData.summary || !Array.isArray(extractedData.actionItems)) {
+            throw new Error('Missing required fields in response');
+          }
+          
+          // Save the extracted data
+          await ctx.runMutation(internal.together.saveSummary, {
+            id: args.id,
+            summary: extractedData.summary,
+            actionItems: extractedData.actionItems,
+            title: extractedData.title,
+          });
+          
+          return; // Exit if successful
+        } catch (jsonError) {
+          console.error('Error parsing response as JSON:', jsonError, 'Response:', responseContent);
+          throw jsonError;
+        }
+      } catch (err) {
+        console.error('Error with standard approach:', err);
+        
+        // Try with GPT-3.5-Turbo as fallback (known to work well with JSON responses)
+        console.log('Falling back to GPT-3.5-Turbo model');
+        const response = await togetherai.chat.completions.create({
+          messages: [
+            {
+              role: 'system',
+              content: `The following is a transcript of a voice message. Extract a title, summary, and action items from it. 
+              The response should be formatted in JSON following this exact structure:
+              {
+                "title": "Short descriptive title of what the voice message is about",
+                "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
+                "actionItems": ["Action item 1", "Action item 2", ...]
+              }
+              Make sure to only include valid JSON without markdown formatting or any other text.`
+            },
+            { role: 'user', content: finalTranscript }
+          ],
+          model: 'gpt-3.5-turbo',
+          temperature: 0.3,
+          max_tokens: 1000,
+        });
+        
+        // Parse the JSON response
+        const responseContent = response.choices[0]?.message.content?.trim() || '';
+        let extractedData;
+        
+        try {
+          // Find JSON portion in the response
+          const jsonMatch = responseContent.match(/\{[\s\S]*\}/);
+          const jsonStr = jsonMatch ? jsonMatch[0] : responseContent;
+          extractedData = JSON.parse(jsonStr);
+          
+          // Validate the required fields
+          if (!extractedData.title || !extractedData.summary || !Array.isArray(extractedData.actionItems)) {
+            throw new Error('Missing required fields in response');
+          }
+        } catch (jsonError) {
+          console.error('Error parsing GPT response as JSON:', jsonError, 'Response:', responseContent);
+          throw jsonError;
+        }
+        
+        await ctx.runMutation(internal.together.saveSummary, {
+          id: args.id,
+          summary: extractedData.summary,
+          actionItems: extractedData.actionItems,
+          title: extractedData.title,
+        });
+      }
+    } catch (e: any) {
+      console.error('All approaches failed:', e);
       await ctx.runMutation(internal.together.saveSummary, {
         id: args.id,
-        summary,
-        actionItems,
-        title,
-      });
-    } catch (e) {
-      console.error('Error extracting from voice message', e);
-      await ctx.runMutation(internal.together.saveSummary, {
-        id: args.id,
-        summary: 'Summary failed to generate',
+        summary: 'Summary failed to generate. Please try again or contact support if this persists.',
         actionItems: [],
-        title: 'Title',
+        title: 'Voice Note ' + new Date().toLocaleDateString(),
       });
     }
   },
