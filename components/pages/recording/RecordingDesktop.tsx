@@ -35,23 +35,23 @@ export default function RecordingDesktop({
       <div className="max-width mt-5 flex items-center justify-between">
         <div />
         <h1
-          className={`leading text-center text-xl font-medium leading-[114.3%] tracking-[-0.75px] text-dark md:text-[35px] lg:text-[43px] ${
+          className={`leading text-center text-xl font-medium leading-[114.3%] tracking-[-0.75px] text-dark md:text-2xl lg:text-3xl ${
             generatingTitle && 'animate-pulse'
           }`}
         >
           {generatingTitle ? 'Generating Title...' : title ?? 'Untitled Note'}
         </h1>
         <div className="flex items-center justify-center">
-          <p className="text-lg opacity-80">
+          <p className="text-sm md:text-base lg:text-lg opacity-80">
             {formatTimestamp(Number(_creationTime))}
           </p>
         </div>
       </div>
-      <div className="mt-[18px] grid h-fit w-full grid-cols-2 px-[30px] py-[19px] lg:px-[45px]">
+      <div className="mt-[18px] grid h-fit w-full grid-cols-2 px-4 py-4 md:px-6 lg:px-8">
         <div className="flex w-full items-center justify-center gap-[50px] border-r  lg:gap-[70px]">
           <div className="flex items-center gap-4">
             <button
-              className={`text-xl leading-[114.3%] tracking-[-0.6px] text-dark lg:text-2xl ${
+              className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
                 originalIsOpen ? 'opacity-100' : 'opacity-40'
               } transition-all duration-300`}
             >
@@ -68,7 +68,7 @@ export default function RecordingDesktop({
               />
             </div>
             <button
-              className={`text-xl leading-[114.3%] tracking-[-0.6px] text-dark lg:text-2xl ${
+              className={`text-base md:text-lg leading-[114.3%] tracking-[-0.6px] text-dark ${
                 !originalIsOpen ? 'opacity-100' : 'opacity-40'
               } transition-all duration-300`}
             >
@@ -77,13 +77,13 @@ export default function RecordingDesktop({
           </div>
         </div>
         <div className="text-center">
-          <h1 className="text-xl leading-[114.3%] tracking-[-0.75px] text-dark lg:text-2xl xl:text-[30px]">
+          <h1 className="text-base md:text-lg lg:text-xl leading-[114.3%] tracking-[-0.75px] text-dark">
             Action Items
           </h1>
         </div>
       </div>
-      <div className="grid h-full w-full grid-cols-2 px-[30px] lg:px-[45px]">
-        <div className="relative min-h-[70vh] w-full border-r px-5 py-3 text-justify text-xl font-[300] leading-[114.3%] tracking-[-0.6px] lg:text-2xl">
+      <div className="grid h-full w-full grid-cols-2 px-4 md:px-6 lg:px-8">
+        <div className="relative min-h-[70vh] w-full border-r px-4 py-3 text-justify text-sm md:text-base lg:text-lg font-[300] leading-[114.3%] tracking-[-0.6px]">
           {transcription ? (
             <div className="">{originalIsOpen ? transcription : summary}</div>
           ) : (
@@ -105,7 +105,7 @@ export default function RecordingDesktop({
                   key={idx}
                 >
                   <div className="flex w-full justify-center">
-                    <div className="group w-full items-center rounded p-2 text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100 md:text-2xl">
+                    <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
                       <div className="flex items-center">
                         <input
                           disabled
@@ -116,7 +116,7 @@ export default function RecordingDesktop({
                         <label className="h-5 w-full rounded-full bg-gray-200" />
                       </div>
                       <div className="flex justify-between md:mt-2">
-                        <p className="ml-9 text-[15px] font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60 md:inline-block md:text-xl lg:text-xl">
+                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
                           {new Date(Number(_creationTime)).toLocaleDateString()}
                         </p>
                       </div>
@@ -130,7 +130,7 @@ export default function RecordingDesktop({
                   key={idx}
                 >
                   <div className="flex w-full justify-center">
-                    <div className="group w-full items-center rounded p-2 text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100 md:text-2xl">
+                    <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
                       <div className="flex items-center">
                         <input
                           onChange={(e) => {
@@ -146,7 +146,7 @@ export default function RecordingDesktop({
                         <label className="">{item?.task}</label>
                       </div>
                       <div className="flex justify-between md:mt-2">
-                        <p className="ml-9 text-[15px] font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60 md:inline-block md:text-xl lg:text-xl">
+                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
                           {new Date(Number(_creationTime)).toLocaleDateString()}
                         </p>
                       </div>
@@ -156,7 +156,7 @@ export default function RecordingDesktop({
               ))}
           <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center justify-center">
             <Link
-              className="rounded-[7px] bg-dark px-5 py-[15px] text-[17px] leading-[79%] tracking-[-0.75px] text-light md:text-xl lg:px-[37px]"
+              className="rounded-[7px] bg-dark px-5 py-3 text-base md:text-lg leading-[79%] tracking-[-0.75px] text-light lg:px-[37px]"
               style={{ boxShadow: ' 0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}
               href="/dashboard/action-items"
             >

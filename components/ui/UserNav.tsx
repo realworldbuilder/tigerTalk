@@ -40,17 +40,17 @@ export function UserNav({
       <DropdownMenuContent className="w-56 bg-white" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none text-black">
+            <p className="text-xs md:text-sm font-medium leading-none text-black">
               {name}
             </p>
-            <p className="text-xs leading-none text-black">{email}</p>
+            <p className="text-[10px] md:text-xs leading-none text-black">{email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href="/dashboard">
           <DropdownMenuItem className="hover:cursor-pointer hover:bg-gray-200">
             <Paintbrush2 className="mr-2 h-4 w-4 text-black" />
-            <span className="text-black">Dashboard</span>
+            <span className="text-xs md:text-sm text-black">Dashboard</span>
           </DropdownMenuItem>
         </Link>
         <DropdownMenuItem
@@ -58,7 +58,7 @@ export function UserNav({
           className="hover:cursor-pointer hover:bg-gray-200"
         >
           <LogOut className="mr-2 h-4 w-4 text-black" />
-          <span className="text-black">Log out</span>
+          <span className="text-xs md:text-sm text-black">Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

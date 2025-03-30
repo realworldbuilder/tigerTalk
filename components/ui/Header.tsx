@@ -16,8 +16,8 @@ export default async function Header() {
             alt="logo"
             className="h-5 w-5 md:h-8 md:w-8"
           />
-          <h1 className="text-xl font-medium text-[#25292F] md:text-3xl">
-            NotesGPT
+          <h1 className="text-lg font-medium text-[#25292F] md:text-xl lg:text-2xl">
+            Tiger Talk
           </h1>
         </Link>
         {/* navigation */}
@@ -26,19 +26,19 @@ export default async function Header() {
             <>
               <Link
                 href={'/dashboard'}
-                className="hidden cursor-pointer text-lg text-gray-800 hover:text-gray-600 md:inline-block lg:text-xl"
+                className="hidden cursor-pointer text-sm text-gray-800 hover:text-gray-600 md:inline-block md:text-base lg:text-lg"
               >
                 Recordings
               </Link>
               <Link
                 href={'/record'}
-                className="hidden cursor-pointer text-lg text-gray-800 hover:text-gray-600 md:inline-block lg:text-xl"
+                className="hidden cursor-pointer text-sm text-gray-800 hover:text-gray-600 md:inline-block md:text-base lg:text-lg"
               >
                 Record
               </Link>
               <Link
                 href={'/dashboard/action-items'}
-                className="hidden cursor-pointer text-lg text-gray-800 hover:text-gray-600 md:inline-block lg:text-xl"
+                className="hidden cursor-pointer text-sm text-gray-800 hover:text-gray-600 md:inline-block md:text-base lg:text-lg"
               >
                 Action Items
               </Link>
@@ -54,7 +54,7 @@ export default async function Header() {
             </>
           ) : (
             <Link href="/dashboard">
-              <button className="text-md rounded-lg bg-gray-800 px-5 py-1 text-center text-white hover:bg-gray-700 md:px-10 md:py-2 md:text-xl">
+              <button className="text-sm rounded-lg bg-gray-800 px-4 py-1 text-center text-white hover:bg-gray-700 md:px-6 md:py-2 md:text-base">
                 Sign in
               </button>
             </Link>

@@ -47,13 +47,13 @@ const RecordedfileItemCard = ({
           </svg>
         </div>
         <div className="overflow-hidden">
-          <h3 className="truncate text-base font-medium text-gray-800">
+          <h3 className="truncate text-sm md:text-base font-medium text-gray-800">
             {title || "Untitled Note"}
           </h3>
         </div>
       </div>
       <div className="flex items-center space-x-4">
-        <span className="hidden text-sm text-gray-500 md:block">
+        <span className="hidden text-xs md:text-sm text-gray-500 md:block">
           {formatDate(_creationTime)}
         </span>
         <button

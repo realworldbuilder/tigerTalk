@@ -14,7 +14,7 @@ export default function RecordingPage({
   const currentNote = usePreloadedQueryWithAuth(preloadedNote);
 
   return (
-    <div className="mx-auto max-w-[1500px]">
+    <div className="mx-auto max-w-[1200px] px-4 md:px-6 lg:px-8">
       {currentNote.note === null ? (
         <div className="mt-10 text-center">
           <h1 className="text-4xl">Note not found</h1>

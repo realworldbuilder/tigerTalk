@@ -27,7 +27,7 @@ export default function RecordingMobile({
   return (
     <div className="md:hidden">
       <div className="max-width my-5 flex items-center justify-center">
-        <h1 className="leading text-center text-xl font-medium leading-[114.3%] tracking-[-0.75px] text-dark md:text-[35px] lg:text-[43px]">
+        <h1 className="leading text-center text-xl font-medium leading-[114.3%] tracking-[-0.75px] text-dark md:text-2xl">
           {title ?? 'Untitled Note'}
         </h1>
       </div>
@@ -38,7 +38,7 @@ export default function RecordingMobile({
             setActionItemOpen(false),
             setSummaryOpen(false)
           )}
-          className={`py-[12px] text-[17px] leading-[114.3%] tracking-[-0.425px] ${
+          className={`py-[12px] text-sm sm:text-base leading-[114.3%] tracking-[-0.425px] ${
             transcriptOpen ? 'action-btn-active' : 'action-btn'
           }`}
         >
@@ -50,7 +50,7 @@ export default function RecordingMobile({
             setActionItemOpen(false),
             setSummaryOpen(!summaryOpen)
           )}
-          className={`py-[12px] text-[17px] leading-[114.3%] tracking-[-0.425px] ${
+          className={`py-[12px] text-sm sm:text-base leading-[114.3%] tracking-[-0.425px] ${
             summaryOpen ? 'action-btn-active' : 'action-btn'
           }`}
         >
@@ -62,7 +62,7 @@ export default function RecordingMobile({
             setActionItemOpen(!actionItemOpen),
             setSummaryOpen(false)
           )}
-          className={`py-[12px] text-[17px] leading-[114.3%] tracking-[-0.425px] ${
+          className={`py-[12px] text-sm sm:text-base leading-[114.3%] tracking-[-0.425px] ${
             actionItemOpen ? 'action-btn-active' : 'action-btn'
           }`}
         >
@@ -71,12 +71,12 @@ export default function RecordingMobile({
       </div>
       <div className="w-full">
         {transcriptOpen && (
-          <div className="relative mt-2 min-h-[70vh] w-full px-4 py-3 text-justify font-light">
+          <div className="relative mt-2 min-h-[70vh] w-full px-4 py-3 text-justify text-sm sm:text-base font-light">
             <div className="">{transcription}</div>
           </div>
         )}
         {summaryOpen && (
-          <div className="relative mt-2 min-h-[70vh] w-full px-4 py-3 text-justify font-light">
+          <div className="relative mt-2 min-h-[70vh] w-full px-4 py-3 text-justify text-sm sm:text-base font-light">
             {summary}
           </div>
         )}
@@ -90,7 +90,7 @@ export default function RecordingMobile({
                   key={idx}
                 >
                   <div className="flex w-full justify-center">
-                    <div className="group w-full items-center rounded py-2 text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100 md:text-2xl">
+                    <div className="group w-full items-center rounded py-2 text-sm sm:text-base font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
                       <div className="flex items-center">
                         <input
                           onChange={(e) => {
@@ -106,7 +106,7 @@ export default function RecordingMobile({
                         <label className="">{item?.task}</label>
                       </div>
                       <div className="flex justify-between md:mt-2">
-                        <p className="ml-9 text-[15px] font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60 md:inline-block md:text-xl lg:text-xl">
+                        <p className="ml-9 text-xs sm:text-sm font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
                           {new Date(Number(_creationTime)).toLocaleDateString()}
                         </p>
                       </div>
@@ -116,7 +116,7 @@ export default function RecordingMobile({
               ))}
               <div className="mt-10 flex items-center justify-center">
                 <Link
-                  className="rounded-[7px] bg-dark px-5 py-[15px] text-[17px] leading-[79%] tracking-[-0.75px] text-light md:text-xl lg:px-[37px]"
+                  className="rounded-[7px] bg-dark px-5 py-3 text-sm sm:text-base leading-[79%] tracking-[-0.75px] text-light"
                   style={{
                     boxShadow: ' 0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
                   }}

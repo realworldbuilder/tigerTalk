@@ -47,8 +47,8 @@ export default function DashboardHomePage({
     <div suppressHydrationWarning={true} className="min-h-screen w-full bg-white px-5 py-4">
       <div className="container mx-auto max-w-6xl">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-semibold text-gray-800">Welcome back!</h1>
-          <p className="mt-2 text-gray-600">Here's a list of all your notes!</p>
+          <h1 className="text-xl font-semibold text-gray-800 md:text-2xl lg:text-3xl">Welcome back!</h1>
+          <p className="mt-2 text-sm text-gray-600 md:text-base">Here's a list of all your notes!</p>
         </div>
         
         {/* search bar */}
@@ -66,13 +66,13 @@ export default function DashboardHomePage({
               placeholder="Search notes..."
               onChange={(e) => setSearchQuery(e.target.value)}
               value={searchQuery}
-              className="w-full bg-transparent text-gray-700 outline-none"
+              className="w-full bg-transparent text-sm md:text-base text-gray-700 outline-none"
             />
           </form>
         </div>
         
         {/* table header */}
-        <div className="mb-2 flex border-b border-gray-200 py-2 text-sm font-medium text-gray-500">
+        <div className="mb-2 flex border-b border-gray-200 py-2 text-xs md:text-sm font-medium text-gray-500">
           <div className="flex-1 px-4">Title</div>
           <div className="w-32 px-4 text-right md:w-48">Date</div>
         </div>
@@ -84,7 +84,7 @@ export default function DashboardHomePage({
               <RecordedfileItemCard {...item} key={index} />
             ))
           ) : (
-            <div className="flex h-32 items-center justify-center text-gray-500">
+            <div className="flex h-32 items-center justify-center text-sm md:text-base text-gray-500">
               <p>You currently have no recordings.</p>
             </div>
           )}
@@ -96,7 +96,7 @@ export default function DashboardHomePage({
         {/* Record button */}
         <div className="mt-6 flex justify-end">
           <Link
-            className="rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
+            className="rounded-md bg-gray-800 px-4 py-2 text-sm md:text-base font-medium text-white hover:bg-gray-700"
             href="/record"
           >
             Record a New Note

@@ -94,10 +94,10 @@ const RecordVoicePage = () => {
 
   return (
     <div className=" flex flex-col items-center justify-between">
-      <h1 className="pt-[25px] text-center text-xl font-medium text-dark md:pt-[47px] md:text-4xl">
+      <h1 className="pt-[25px] text-center text-xl font-medium text-dark md:pt-[47px] md:text-2xl lg:text-3xl">
         {title}
       </h1>
-      <p className="mb-20 mt-4 text-gray-400">{formattedDate}</p>
+      <p className="mb-20 mt-4 text-sm text-gray-400 md:text-base">{formattedDate}</p>
       <div className="relative mx-auto flex h-[316px] w-[316px] items-center justify-center">
         <div
           className={`recording-box absolute h-full w-full rounded-[50%] p-[12%] pt-[17%] ${
@@ -112,7 +112,7 @@ const RecordVoicePage = () => {
           />
         </div>
         <div className="z-50 flex h-fit w-fit flex-col items-center justify-center">
-          <h1 className="text-[60px] leading-[114.3%] tracking-[-1.5px] text-light">
+          <h1 className="text-[40px] md:text-[50px] lg:text-[60px] leading-[114.3%] tracking-[-1.5px] text-light">
               {formatTime(Math.floor(totalSeconds / 60))}:{formatTime(totalSeconds % 60)}
           </h1>
         </div>
@@ -163,10 +163,10 @@ function MissingEnvVars(props: { url: string }) {
           />
         </div>
         <div className="ml-3">
-          <h3 className="text-sm font-medium text-yellow-800">
+          <h3 className="text-xs md:text-sm font-medium text-yellow-800">
             Missing Environment Variables
           </h3>
-          <div className="mt-2 text-sm text-yellow-700">
+          <div className="mt-2 text-xs md:text-sm text-yellow-700">
             <p>
               Set up your{' '}
               <a className="underline" target="_blank" href={props.url}>

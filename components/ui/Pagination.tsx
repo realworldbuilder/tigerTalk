@@ -1,6 +1,6 @@
 export default function Pagination() {
   return (
-    <div className="mt-4 flex items-center justify-between border-t border-gray-200 px-3 py-4 text-sm text-gray-500">
+    <div className="mt-4 flex items-center justify-between border-t border-gray-200 px-3 py-4 text-xs md:text-sm text-gray-500">
       <div className="flex items-center space-x-2">
         <div className="h-2 w-2 rounded-full bg-gray-400"></div>
         <p>Page 1 of 1</p>

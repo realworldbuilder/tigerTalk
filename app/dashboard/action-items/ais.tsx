@@ -23,11 +23,11 @@ export default function ActionItemsPage({
     <div className="min-h-[100vh]">
       <div className="flex-col items-center justify-center text-center md:flex">
         <div className="w-full pb-1 pt-4">
-          <h1 className="text-center text-2xl font-medium text-dark md:text-4xl">
+          <h1 className="text-center text-xl font-medium text-dark md:text-2xl lg:text-3xl">
             Action Items
           </h1>
         </div>
-        <h3 className="mt-3 text-gray-600 md:text-xl">
+        <h3 className="mt-3 text-sm text-gray-600 md:text-base lg:text-lg">
           {actionItems?.length ? actionItems?.length : 0} tasks
         </h3>
       </div>
@@ -38,7 +38,7 @@ export default function ActionItemsPage({
             key={idx}
           >
             <div className="flex w-full justify-center">
-              <div className="group w-full items-center rounded p-2 text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100 md:text-2xl">
+              <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
                 <div className="flex items-center">
                   <input
                     onChange={(e) => {
@@ -54,10 +54,10 @@ export default function ActionItemsPage({
                   <label className="">{item?.task}</label>
                 </div>
                 <div className="flex justify-between gap-3 md:mt-2">
-                  <p className="ml-9 text-[15px] font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60 md:inline-block md:text-xl lg:text-xl">
+                  <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
                     {new Date(item?._creationTime).toLocaleDateString()}
                   </p>
-                  <p className="truncate text-[15px] font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60 md:inline-block md:text-xl lg:text-xl">
+                  <p className="truncate text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-dark opacity-60">
                     From: {item?.title}
                   </p>
                 </div>
@@ -68,11 +68,11 @@ export default function ActionItemsPage({
         {actionItems?.length === 0 && (
           <div className="flex flex-col items-center justify-center">
             <div className="flex h-[50vh] w-full flex-col items-center justify-center gap-7">
-              <p className="text-center text-2xl text-dark">
+              <p className="text-center text-base md:text-lg lg:text-xl text-dark">
                 You currently have no action items.
               </p>
               <Link
-                className="rounded-[7px] bg-dark px-[37px] py-[15px] text-[17px] leading-[79%] tracking-[-0.75px] text-light md:text-2xl"
+                className="rounded-[7px] bg-dark px-5 py-3 text-base md:text-lg leading-[79%] tracking-[-0.75px] text-light"
                 style={{ boxShadow: ' 0px 4px 4px 0px rgba(0, 0, 0, 0.25)' }}
                 href="/record"
               >
