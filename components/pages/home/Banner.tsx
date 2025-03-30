@@ -2,22 +2,22 @@ import Link from 'next/link';
 
 const Banner = () => {
   return (
-    <div className="relative h-[350px] w-full  px-4 md:h-[605px] md:px-6 lg:px-8 xl:px-10 2xl:px-0">
+    <div className="relative w-full px-4 py-8 md:h-[605px] md:py-0 md:px-6 lg:px-8 xl:px-10 2xl:px-0">
       <div className="flex h-full w-full flex-col items-center justify-center">
         <a
           href="https://togetherai.link"
           target="_blank"
           rel="noreferrer"
-          className="mb-5 cursor-pointer rounded-2xl border border-black px-4 py-1 text-sm text-slate-600 transition duration-300 ease-in-out hover:text-slate-700 sm:text-base"
+          className="mb-4 cursor-pointer rounded-2xl border border-black px-3 py-1 text-xs text-slate-600 transition duration-300 ease-in-out hover:text-slate-700 sm:mb-5 sm:px-4 sm:text-sm"
         >
           Powered by <span className="font-bold">Together.ai </span>and{' '}
           <span className="font-bold">Convex</span>
         </a>
-        <h1 className="inline-block text-center text-4xl font-medium tracking-tighter text-dark lg:text-7xl">
-          AI-Powered Voice <br className="hidden lg:inline-block" />
+        <h1 className="inline-block text-center text-3xl font-medium tracking-tighter text-dark sm:text-4xl lg:text-7xl">
+          AI-Powered Voice <br className="sm:hidden lg:inline-block" />
           Note Taking
         </h1>
-        <p className="mt-8 text-center text-xl font-light tracking-tight lg:text-3xl">
+        <p className="mt-4 text-center text-base font-light tracking-tight sm:mt-6 sm:text-xl lg:mt-8 lg:text-3xl">
           Tiger Talk seamlessly converts your voice notes into{' '}
           <span className="font-bold">
             organized <br className="hidden lg:inline-block" />
@@ -27,13 +27,13 @@ const Banner = () => {
         </p>
         <Link
           href={'/dashboard'}
-          className="primary-gradient primary-shadow mx-auto mt-16 flex max-w-xl items-center justify-center gap-5 rounded-full px-4 py-2 text-center text-sm text-light md:px-12 md:py-4 md:text-2xl"
+          className="primary-gradient primary-shadow mx-auto mt-8 flex items-center justify-center gap-3 rounded-full px-4 py-2 text-center text-sm text-light sm:mt-12 sm:gap-4 md:mt-16 md:px-12 md:py-4 md:text-2xl"
         >
           Get Started
           <img
             src="/icons/get-started.svg"
             alt="get started icon"
-            className="mt-2 h-6 w-6 md:h-9 md:w-9"
+            className="h-5 w-5 sm:h-6 sm:w-6 md:h-9 md:w-9"
           />
         </Link>
       </div>
@@ -42,6 +42,12 @@ const Banner = () => {
         <BackgroundGradient />
         <BackgroundGradient />
         <BackgroundGradient />
+      </div>
+      {/* Mobile background gradient */}
+      <div className="absolute bottom-0 left-0 right-0 top-0 z-[-1] h-full w-full md:hidden">
+        <div className="mx-auto" style={{ maxWidth: '90%' }}>
+          <BackgroundGradient />
+        </div>
       </div>
     </div>
   );

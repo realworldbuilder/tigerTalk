@@ -44,21 +44,21 @@ export default function DashboardHomePage({
   const finalNotes = relevantNotes ?? allNotes;
 
   return (
-    <div suppressHydrationWarning={true} className="min-h-screen w-full bg-white px-5 py-4">
+    <div suppressHydrationWarning={true} className="min-h-screen w-full bg-white px-3 py-3 sm:px-5 sm:py-4">
       <div className="container mx-auto max-w-6xl">
-        <div className="mb-6 text-center">
-          <h1 className="text-xl font-semibold text-gray-800 md:text-2xl lg:text-3xl">Welcome back!</h1>
-          <p className="mt-2 text-sm text-gray-600 md:text-base">Here's a list of all your notes!</p>
+        <div className="mb-4 sm:mb-6 text-center">
+          <h1 className="text-lg font-semibold text-gray-800 sm:text-xl md:text-2xl lg:text-3xl">Welcome back!</h1>
+          <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-600 md:text-base">Here's a list of all your notes!</p>
         </div>
         
         {/* search bar */}
-        <div className="mx-auto mb-6 flex rounded-md border border-gray-300 bg-white px-3 py-2">
+        <div className="mx-auto mb-4 sm:mb-6 flex rounded-md border border-gray-300 bg-white px-2 py-1.5 sm:px-3 sm:py-2">
           <Image
             src="/icons/search.svg"
             width={20}
             height={20}
             alt="search"
-            className="mr-2 h-5 w-5 text-gray-400"
+            className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400"
           />
           <form onSubmit={handleSearch} className="w-full">
             <input
@@ -66,15 +66,15 @@ export default function DashboardHomePage({
               placeholder="Search notes..."
               onChange={(e) => setSearchQuery(e.target.value)}
               value={searchQuery}
-              className="w-full bg-transparent text-sm md:text-base text-gray-700 outline-none"
+              className="w-full bg-transparent text-xs sm:text-sm md:text-base text-gray-700 outline-none"
             />
           </form>
         </div>
         
         {/* table header */}
-        <div className="mb-2 flex border-b border-gray-200 py-2 text-xs md:text-sm font-medium text-gray-500">
-          <div className="flex-1 px-4">Title</div>
-          <div className="w-32 px-4 text-right md:w-48">Date</div>
+        <div className="mb-2 flex border-b border-gray-200 py-1.5 sm:py-2 text-2xs sm:text-xs md:text-sm font-medium text-gray-500">
+          <div className="flex-1 px-2 sm:px-4">Title</div>
+          <div className="w-20 px-2 text-right sm:w-32 sm:px-4 md:w-48">Date</div>
         </div>
         
         {/* notes list */}
@@ -84,7 +84,7 @@ export default function DashboardHomePage({
               <RecordedfileItemCard {...item} key={index} />
             ))
           ) : (
-            <div className="flex h-32 items-center justify-center text-sm md:text-base text-gray-500">
+            <div className="flex h-24 sm:h-32 items-center justify-center text-xs sm:text-sm md:text-base text-gray-500">
               <p>You currently have no recordings.</p>
             </div>
           )}
@@ -93,13 +93,26 @@ export default function DashboardHomePage({
         {/* Pagination */}
         <Pagination />
         
-        {/* Record button */}
-        <div className="mt-6 flex justify-end">
+        {/* Record button - fixed on mobile, normal on desktop */}
+        <div className="mt-4 sm:mt-6 flex justify-end">
           <Link
-            className="rounded-md bg-gray-800 px-4 py-2 text-sm md:text-base font-medium text-white hover:bg-gray-700"
+            className="w-full sm:w-auto text-center rounded-md bg-gray-800 px-3 py-1.5 text-xs sm:text-sm md:text-base font-medium text-white hover:bg-gray-700 sm:px-4 sm:py-2"
             href="/record"
           >
             Record a New Note
+          </Link>
+        </div>
+
+        {/* Fixed bottom button for mobile */}
+        <div className="fixed bottom-4 right-4 sm:hidden">
+          <Link
+            className="flex items-center justify-center rounded-full bg-orange-500 p-3 shadow-lg"
+            href="/record"
+            aria-label="Record a new note"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
           </Link>
         </div>
       </div>
