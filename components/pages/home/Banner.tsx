@@ -15,16 +15,19 @@ const Banner = () => {
           <span className="font-bold">Convex</span>
         </a>
         <h1 className="inline-block text-center text-3xl font-medium tracking-tighter text-dark sm:text-4xl lg:text-7xl">
-          AI-Powered Voice <br className="sm:hidden lg:inline-block" />
-          Note Taking
+          AI-Powered Daily <br className="sm:hidden lg:inline-block" />
+          Construction Reports
         </h1>
         <p className="mt-4 text-center text-base font-light tracking-tight sm:mt-6 sm:text-xl lg:mt-8 lg:text-3xl">
-          Tiger Talk seamlessly converts your voice notes into{' '}
+          cowboyTalk transforms your voice notes into{' '}
           <span className="font-bold">
-            organized <br className="hidden lg:inline-block" />
-            summaries
+            rich, detailed <br className="hidden lg:inline-block" />
+            reports
           </span>{' '}
-          and <span className="font-bold">clear action items</span> using AI.
+          and <span className="font-bold">clear, actionable tasks</span>—cowboy-style.
+        </p>
+        <p className="mt-2 text-center text-sm font-medium text-gray-700 sm:text-base lg:text-xl">
+          A new way to get sh*t done. Easier than beating the Gamecocks.
         </p>
         <Link
           href={'/dashboard'}

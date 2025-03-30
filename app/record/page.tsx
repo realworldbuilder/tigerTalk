@@ -12,7 +12,7 @@ import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { Mic, MicOff } from 'lucide-react';
 
 const RecordVoicePage = () => {
-  const [title, setTitle] = useState('Record your voice note');
+  const [title, setTitle] = useState('Record your construction report');
   const envVarsUrl = useQuery(api.utils.envVarsMissing);
 
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
@@ -95,7 +95,7 @@ const RecordVoicePage = () => {
   }
 
   const handleRecordClick = () => {
-    if (title === 'Record your voice note') {
+    if (title === 'Record your construction report') {
       startRecording();
     } else if (title === 'Recording...') {
       stopRecording();
@@ -111,7 +111,7 @@ const RecordVoicePage = () => {
       <div className="relative mx-auto flex h-[316px] w-[316px] items-center justify-center">
         <div
           className={`recording-box absolute h-full w-full rounded-[50%] p-[12%] pt-[17%] ${
-            title !== 'Record your voice note' && title !== 'Processing...'
+            title !== 'Record your construction report' && title !== 'Processing...'
               ? 'record-animation'
               : ''
           }`}
