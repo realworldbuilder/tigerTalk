@@ -115,12 +115,12 @@ export default function RecordingDesktop({
                     <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 checked:text-gray-300 hover:bg-gray-100">
                       <div className="flex items-center">
                         <div
-                          className="mr-4 h-6 w-6 rounded-full border-2 border-orange-300 bg-gray-200"
+                          className="mr-3 h-5 w-5 rounded-full border-2 border-orange-300 bg-gray-200"
                         />
                         <label className="h-5 w-full rounded-full bg-gray-200" />
                       </div>
-                      <div className="flex justify-between md:mt-2">
-                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-orange-400 opacity-60">
+                      <div className="flex justify-between md:mt-1">
+                        <p className="ml-8 text-xs md:text-sm lg:text-base font-[300] leading-[200%] tracking-[-0.6px] text-dark opacity-60">
                           {new Date(Number(_creationTime)).toLocaleDateString()}
                         </p>
                       </div>
@@ -134,21 +134,21 @@ export default function RecordingDesktop({
                   key={idx}
                 >
                   <div className="flex w-full justify-center">
-                    <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 hover:bg-orange-50">
+                    <div className="group w-full items-center rounded p-2 text-base md:text-lg font-[300] text-dark transition-colors duration-300 hover:bg-gray-100">
                       <div className="flex items-center">
                         <button
                           onClick={() => {
                             removeActionItem(item._id);
                             toast.success('1 task completed.');
                           }}
-                          className="mr-4 h-6 w-6 flex items-center justify-center rounded-full border-2 border-orange-400 text-orange-400 hover:bg-orange-400 hover:text-white transition-colors"
+                          className="mr-3 h-5 w-5 flex items-center justify-center rounded-full border-2 border-orange-400 text-orange-400 hover:bg-orange-400 hover:text-white transition-colors"
                         >
-                          <XCircle className="h-5 w-5" />
+                          <XCircle className="h-4 w-4" />
                         </button>
-                        <label className="text-orange-700">{item?.task}</label>
+                        <label className="">{item?.task}</label>
                       </div>
-                      <div className="flex justify-between md:mt-2">
-                        <p className="ml-9 text-xs md:text-sm lg:text-base font-[300] leading-[249%] tracking-[-0.6px] text-orange-500 opacity-80">
+                      <div className="flex justify-between md:mt-1">
+                        <p className="ml-8 text-xs md:text-sm lg:text-base font-[300] leading-[200%] tracking-[-0.6px] text-dark opacity-60">
                           {new Date(Number(_creationTime)).toLocaleDateString()}
                         </p>
                       </div>
