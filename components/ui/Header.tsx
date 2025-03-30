@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { UserNav } from './UserNav';
 import { currentUser } from '@clerk/nextjs';
+import Image from 'next/image';
 
 export default async function Header() {
   const user = await currentUser();
@@ -9,21 +10,16 @@ export default async function Header() {
       <div className="mx-auto flex items-center justify-between">
         {/* logo */}
         <Link className="flex w-fit items-center gap-1 sm:gap-[2px]" href="/dashboard">
-          <svg 
-            className="h-5 w-5 md:h-8 md:w-8"
-            viewBox="0 0 24 24" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path 
-              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
-              fill="#F56600" 
-              stroke="#F56600" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
+          <div className="relative h-5 w-5 md:h-8 md:w-8">
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              fill
+              sizes="(max-width: 768px) 20px, 32px"
+              className="object-contain"
+              priority
             />
-          </svg>
+          </div>
           <h1 className="text-base font-medium text-[#25292F] sm:text-lg md:text-xl lg:text-2xl">
             Tiger Talk
           </h1>

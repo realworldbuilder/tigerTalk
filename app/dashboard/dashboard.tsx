@@ -6,9 +6,9 @@ import { api } from '@/convex/_generated/api';
 import { usePreloadedQueryWithAuth } from '@/lib/hooks';
 import { Preloaded, useAction } from 'convex/react';
 import { FunctionReturnType } from 'convex/server';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 
 export default function DashboardHomePage({
   preloadedNotes,
@@ -53,12 +53,10 @@ export default function DashboardHomePage({
         
         {/* search bar */}
         <div className="mx-auto mb-4 sm:mb-6 flex rounded-md border border-gray-300 bg-white px-2 py-1.5 sm:px-3 sm:py-2">
-          <Image
-            src="/icons/search.svg"
-            width={20}
-            height={20}
-            alt="search"
+          <SearchIcon
             className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400"
+            stroke="currentColor"
+            fill="none"
           />
           <form onSubmit={handleSearch} className="w-full">
             <input
@@ -110,9 +108,7 @@ export default function DashboardHomePage({
             href="/record"
             aria-label="Record a new note"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
+            <PlusIcon className="h-6 w-6 text-white" stroke="currentColor" fill="none" />
           </Link>
         </div>
       </div>

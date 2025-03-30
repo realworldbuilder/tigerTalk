@@ -1,20 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { getCurrentFormattedDate } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
-import Image from 'next/image';
+import { v4 } from 'uuid'; // for randomly generating file ID
 import { useRouter } from 'next/navigation';
 import Header from '@/components/ui/Header';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { Mic, MicOff } from 'lucide-react';
 
 const RecordVoicePage = () => {
   const [title, setTitle] = useState('Record your voice note');
   const envVarsUrl = useQuery(api.utils.envVarsMissing);
 
-  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [totalSeconds, setTotalSeconds] = useState(0);
 
@@ -26,36 +27,47 @@ const RecordVoicePage = () => {
   const router = useRouter();
 
   async function startRecording() {
-    setIsRunning(true);
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream);
-    let audioChunks: any = [];
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      setMediaRecorder(recorder);
+      const chunks: BlobPart[] = [];
 
-    recorder.ondataavailable = (e) => {
-      audioChunks.push(e.data);
-    };
+      recorder.ondataavailable = e => {
+        chunks.push(e.data);
+      };
 
-    recorder.onstop = async () => {
-      const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-
-      const postUrl = await generateUploadUrl();
-      const result = await fetch(postUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'audio/mp3' },
-        body: audioBlob,
-      });
-      const { storageId } = await result.json();
-
-      if (user) {
-        let noteId = await createNote({
-          storageId,
+      recorder.onstop = async () => {
+        const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+        
+        // Get signed URL from Convex
+        const signedUrl = await generateUploadUrl();
+        
+        // Upload to Convex storage
+        const result = await fetch(signedUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'audio/wav' },
+          body: audioBlob,
         });
+        
+        const { storageId } = await result.json();
 
-        router.push(`/recording/${noteId}`);
-      }
-    };
-    setMediaRecorder(recorder as any);
-    recorder.start();
+        // Save record to database
+        if (user) {
+          const noteId = await createNote({
+            storageId,
+          });
+          
+          router.push(`/recording/${noteId}`);
+        }
+      };
+
+      recorder.start();
+      setIsRunning(true);
+      setTitle('Recording...');
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+    }
   }
 
   function stopRecording() {
@@ -84,10 +96,8 @@ const RecordVoicePage = () => {
 
   const handleRecordClick = () => {
     if (title === 'Record your voice note') {
-      setTitle('Recording...');
       startRecording();
     } else if (title === 'Recording...') {
-      setTitle('Processing...');
       stopRecording();
     }
   };
@@ -123,24 +133,18 @@ const RecordVoicePage = () => {
         ) : (
           <button
             onClick={handleRecordClick}
-            className="mt-10 h-fit w-fit rounded-[50%] border-[2px]"
+            className="mt-10 h-fit w-fit rounded-[50%] border-[2px] p-5"
             style={{ boxShadow: '0px 0px 8px 5px rgba(0,0,0,0.3)' }}
           >
             {!isRunning ? (
-              <Image
-                src={'/icons/nonrecording_mic.svg'}
-                alt="recording mic"
-                width={148}
-                height={148}
-                className="h-[70px] w-[70px] md:h-[100px] md:w-[100px]"
+              <MicOff 
+                className="h-[60px] w-[60px] md:h-[90px] md:w-[90px] text-gray-700"
+                strokeWidth={1.5}
               />
             ) : (
-              <Image
-                src={'/icons/recording_mic.svg'}
-                alt="recording mic"
-                width={148}
-                height={148}
-                className="h-[70px] w-[70px] animate-pulse transition md:h-[100px] md:w-[100px]"
+              <Mic
+                className="h-[60px] w-[60px] md:h-[90px] md:w-[90px] text-primary-600 animate-pulse transition"
+                strokeWidth={1.5}
               />
             )}
           </button>

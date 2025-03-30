@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 const Banner = () => {
   return (
@@ -30,11 +31,7 @@ const Banner = () => {
           className="primary-gradient primary-shadow mx-auto mt-8 flex items-center justify-center gap-3 rounded-full px-4 py-2 text-center text-sm text-light sm:mt-12 sm:gap-4 md:mt-16 md:px-12 md:py-4 md:text-2xl"
         >
           Get Started
-          <img
-            src="/icons/get-started.svg"
-            alt="get started icon"
-            className="h-5 w-5 sm:h-6 sm:w-6 md:h-9 md:w-9"
-          />
+          <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 md:h-9 md:w-9" stroke="currentColor" fill="none" />
         </Link>
       </div>
       {/* background gradient */}

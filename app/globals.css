@@ -16,6 +16,17 @@
   font-family: 'Lexend', sans-serif;
 }
 
+/* Fix for SVG background on mobile */
+svg {
+  display: block;
+  background: transparent;
+  fill: transparent;
+}
+
+img[src$=".svg"] {
+  background: transparent;
+}
+
 .max-width {
   @apply mx-auto max-w-[1536px] px-5 md:px-6 lg:px-8 xl:px-10 2xl:px-0;
 }
