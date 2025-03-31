@@ -1,4 +1,5 @@
 import { SignUp } from "@clerk/nextjs";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SignUpPage() {
   return (
