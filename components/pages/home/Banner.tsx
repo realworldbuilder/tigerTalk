@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 
 const Banner = () => {
   return (
-    <div className="relative w-full px-4 py-8 md:h-[605px] md:py-0 md:px-6 lg:px-8 xl:px-10 2xl:px-0">
-      <div className="flex h-full w-full flex-col items-center justify-center">
+    <div className="relative w-full px-4 py-8 md:py-10 md:px-6 lg:px-8 xl:px-10 2xl:px-0">
+      <div className="flex w-full flex-col items-center justify-center">
         <a
           href="https://togetherai.link"
           target="_blank"
@@ -26,9 +27,6 @@ const Banner = () => {
           </span>{' '}
           and <span className="font-bold">clear, actionable tasks</span> using AI.
         </p>
-        <p className="mt-2 text-center text-sm font-medium text-gray-700 sm:text-base lg:text-xl">
-          A new way to get sh*t done. Easier than beating the Gamecocks.
-        </p>
         <Link
           href={'/dashboard'}
           className="primary-gradient primary-shadow mx-auto mt-8 flex items-center justify-center gap-3 rounded-full px-4 py-2 text-center text-sm text-light sm:mt-12 sm:gap-4 md:mt-16 md:px-12 md:py-4 md:text-2xl"
@@ -37,6 +35,22 @@ const Banner = () => {
           <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 md:h-9 md:w-9" stroke="currentColor" fill="none" />
         </Link>
       </div>
+      
+      {/* Full-width OG Image */}
+      <div className="w-full mt-12 md:mt-16 lg:mt-20 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] rounded-lg overflow-hidden shadow-xl">
+            <Image
+              src="/images/og-image.png"
+              alt="Tiger Talk Construction Reports"
+              fill
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          </div>
+        </div>
+      </div>
+      
       {/* background gradient */}
       <div className="absolute bottom-0 left-0 right-0 top-0 z-[-1] hidden h-full w-full grid-cols-3 md:grid">
         <BackgroundGradient />
