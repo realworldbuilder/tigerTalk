@@ -4,32 +4,19 @@ import { authMiddleware } from '@clerk/nextjs';
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
-  // Only make public routes public
+  // Public routes that don't require authentication
   publicRoutes: [
     '/',                     // Homepage
-    '/sign-in(.*)',          // All sign-in routes
-    '/sign-up(.*)',          // All sign-up routes
     '/api(.*)',              // API routes
-    '/_next/static(.*)',     // Next.js static files
     '/favicon.ico',          // Favicon
     '/images(.*)',           // Public images
   ],
   
-  // Return true to continue, false to deny access
+  // Handle redirects for unauthenticated users
   afterAuth(auth, req) {
-    // Always allow access to public routes
-    if (req.nextUrl.pathname === '/' || 
-        req.nextUrl.pathname.startsWith('/sign-in') || 
-        req.nextUrl.pathname.startsWith('/sign-up')) {
-      return;
-    }
-    
-    // If trying to access protected routes and not authenticated, redirect to sign-in
-    if (!auth.userId && 
-        (req.nextUrl.pathname.startsWith('/dashboard') || 
-         req.nextUrl.pathname.startsWith('/record') || 
-         req.nextUrl.pathname.startsWith('/recording'))) {
-      const signInUrl = new URL('/sign-in', req.url);
+    // If the user is not signed in and the route is not public, redirect to Clerk's hosted sign-in
+    if (!auth.userId && !auth.isPublicRoute) {
+      const signInUrl = new URL('https://accounts.tigertalk.app/sign-in');
       signInUrl.searchParams.set('redirect_url', req.url);
       return Response.redirect(signInUrl);
     }

@@ -5,6 +5,11 @@ import Image from 'next/image';
 
 export default async function Header() {
   const user = await currentUser();
+  
+  // Clerk Account Portal URLs
+  const signInUrl = "https://accounts.tigertalk.app/sign-in?redirect_url=https://www.tigertalk.app/dashboard";
+  const signUpUrl = "https://accounts.tigertalk.app/sign-up?redirect_url=https://www.tigertalk.app/dashboard";
+  
   return (
     <div className="relative border-b border-gray-200 px-3 py-3 sm:px-4 sm:py-4 md:px-10">
       <div className="mx-auto flex items-center justify-between">
@@ -60,16 +65,16 @@ export default async function Header() {
             </>
           ) : (
             <div className="flex items-center gap-2 sm:gap-4">
-              <Link href="/sign-up">
+              <a href={signUpUrl}>
                 <button className="rounded-lg border border-gray-800 px-3 py-1 text-xs text-gray-800 hover:bg-gray-100 sm:text-sm sm:px-4 md:px-6 md:py-2 md:text-base">
                   Sign up
                 </button>
-              </Link>
-              <Link href="/sign-in">
+              </a>
+              <a href={signInUrl}>
                 <button className="rounded-lg bg-gray-800 px-3 py-1 text-xs text-white hover:bg-gray-700 sm:text-sm sm:px-4 md:px-6 md:py-2 md:text-base">
                   Sign in
                 </button>
-              </Link>
+              </a>
             </div>
           )}
         </div>
