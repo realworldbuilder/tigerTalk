@@ -4,13 +4,30 @@ import { authMiddleware } from '@clerk/nextjs';
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
+  // Make all routes public by default
   publicRoutes: [
-    '/',
-    '/sign-in',
-    '/sign-in/(.*)',
-    '/sign-up',
-    '/sign-up/(.*)',
+    '/(.*)',  // Makes all routes public by default
   ],
+  
+  // Return true to continue, false to deny access
+  afterAuth(auth, req) {
+    // Always allow access to public routes
+    if (req.nextUrl.pathname === '/' || 
+        req.nextUrl.pathname.startsWith('/sign-in') || 
+        req.nextUrl.pathname.startsWith('/sign-up')) {
+      return;
+    }
+    
+    // If trying to access protected routes and not authenticated, redirect to sign-in
+    if (!auth.userId && 
+        (req.nextUrl.pathname.startsWith('/dashboard') || 
+         req.nextUrl.pathname.startsWith('/record') || 
+         req.nextUrl.pathname.startsWith('/recording'))) {
+      const signInUrl = new URL('/sign-in', req.url);
+      signInUrl.searchParams.set('redirect_url', req.url);
+      return Response.redirect(signInUrl);
+    }
+  },
 });
 
 export const config = {
