@@ -97,25 +97,36 @@ export const chat = internalAction({
           messages: [
             {
               role: 'system',
-              content: `The following is a transcript of a voice message. Extract a title, summary, action items, and if it appears to be a construction daily report, extract construction-specific information.
-              
-              The response should be formatted in JSON following this exact structure:
-              {
-                "title": "Short descriptive title of what the voice message is about",
-                "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
-                "actionItems": ["Action item 1", "Action item 2", ...],
-                "isConstructionReport": boolean (true/false),
-                "manpower": "Information about workers, staffing, or labor (only if construction report)",
-                "weather": "Information about weather conditions (only if construction report)",
-                "delays": "Information about delays or schedule issues (only if construction report)",
-                "openIssues": "Information about unresolved problems or issues (only if construction report)",
-                "equipment": "Information about equipment used or needed (only if construction report)"
-              }
-              
-              If the voice message is NOT a construction report, only include title, summary, actionItems, and set isConstructionReport to false.
-              If it IS a construction report, include all fields and set values appropriately based on the transcript.
-              Use "Not mentioned" for construction fields that aren't explicitly mentioned in the transcript.
-              Make sure to only include valid JSON without markdown formatting or any other text.`
+              content: `The following is a transcript of a voice message. Extract a title, summary, action items, and—if it appears to be a construction daily report—extract detailed construction-specific information.
+
+The response must be formatted in **valid JSON** using this exact structure:
+{
+  "title": "Short descriptive title of what the voice message is about",
+  "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
+  "actionItems": ["Action item 1", "Action item 2", ...],
+  "isConstructionReport": boolean (true/false),
+  "manpower": "Information about workers, staffing, trades, or labor hours. Include subcontractor names and headcounts if possible. Use 'Not mentioned' if not provided.",
+  "weather": "Weather conditions that may affect work (temperature, wind, rain, etc.). Use 'Not mentioned' if not provided.",
+  "delays": "Delays or schedule disruptions, including cause, impact, or duration. Use 'Not mentioned' if not provided.",
+  "openIssues": "Unresolved problems, punch list items, safety concerns, coordination issues, or inspection results. Use 'Not mentioned' if not provided.",
+  "equipment": "Information about major equipment used, deliveries, damaged tools, or machinery downtime. Use 'Not mentioned' if not provided."
+}
+
+**Guidelines:**
+- If the voice message is NOT a construction report, only include: title, summary, actionItems, and set isConstructionReport to false.
+- If it IS a construction report, include all fields and set isConstructionReport to true.
+- Use "Not mentioned" (exact string) for any construction fields that are missing.
+- Do not include markdown, headings, or explanations. Only return valid JSON.
+- Listen for details common to high-quality daily construction reports, such as:
+  - Who was on-site (trades, subcontractors, consultants)
+  - What work was completed or in progress (tasks, locations, % completion)
+  - Site conditions (weather or safety)
+  - Material/equipment deliveries or shortages
+  - Inspections or coordination meetings
+  - Any impact to budget, schedule, or safety
+  - Action plan or next steps (if provided)
+
+The goal is to produce an output that reflects a clear, accurate snapshot of the jobsite, suitable for official project documentation and review.`
             },
             { role: 'user', content: finalTranscript }
           ],
@@ -167,25 +178,36 @@ export const chat = internalAction({
           messages: [
             {
               role: 'system',
-              content: `The following is a transcript of a voice message. Extract a title, summary, action items, and if it appears to be a construction daily report, extract construction-specific information.
-              
-              The response should be formatted in JSON following this exact structure:
-              {
-                "title": "Short descriptive title of what the voice message is about",
-                "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
-                "actionItems": ["Action item 1", "Action item 2", ...],
-                "isConstructionReport": boolean (true/false),
-                "manpower": "Information about workers, staffing, or labor (only if construction report)",
-                "weather": "Information about weather conditions (only if construction report)",
-                "delays": "Information about delays or schedule issues (only if construction report)",
-                "openIssues": "Information about unresolved problems or issues (only if construction report)",
-                "equipment": "Information about equipment used or needed (only if construction report)"
-              }
-              
-              If the voice message is NOT a construction report, only include title, summary, actionItems, and set isConstructionReport to false.
-              If it IS a construction report, include all fields and set values appropriately based on the transcript.
-              Use "Not mentioned" for construction fields that aren't explicitly mentioned in the transcript.
-              Make sure to only include valid JSON without markdown formatting or any other text.`
+              content: `The following is a transcript of a voice message. Extract a title, summary, action items, and—if it appears to be a construction daily report—extract detailed construction-specific information.
+
+The response must be formatted in **valid JSON** using this exact structure:
+{
+  "title": "Short descriptive title of what the voice message is about",
+  "summary": "A short summary in the first person point of view of the person recording the voice message (maximum 500 characters)",
+  "actionItems": ["Action item 1", "Action item 2", ...],
+  "isConstructionReport": boolean (true/false),
+  "manpower": "Information about workers, staffing, trades, or labor hours. Include subcontractor names and headcounts if possible. Use 'Not mentioned' if not provided.",
+  "weather": "Weather conditions that may affect work (temperature, wind, rain, etc.). Use 'Not mentioned' if not provided.",
+  "delays": "Delays or schedule disruptions, including cause, impact, or duration. Use 'Not mentioned' if not provided.",
+  "openIssues": "Unresolved problems, punch list items, safety concerns, coordination issues, or inspection results. Use 'Not mentioned' if not provided.",
+  "equipment": "Information about major equipment used, deliveries, damaged tools, or machinery downtime. Use 'Not mentioned' if not provided."
+}
+
+**Guidelines:**
+- If the voice message is NOT a construction report, only include: title, summary, actionItems, and set isConstructionReport to false.
+- If it IS a construction report, include all fields and set isConstructionReport to true.
+- Use "Not mentioned" (exact string) for any construction fields that are missing.
+- Do not include markdown, headings, or explanations. Only return valid JSON.
+- Listen for details common to high-quality daily construction reports, such as:
+  - Who was on-site (trades, subcontractors, consultants)
+  - What work was completed or in progress (tasks, locations, % completion)
+  - Site conditions (weather or safety)
+  - Material/equipment deliveries or shortages
+  - Inspections or coordination meetings
+  - Any impact to budget, schedule, or safety
+  - Action plan or next steps (if provided)
+
+The goal is to produce an output that reflects a clear, accurate snapshot of the jobsite, suitable for official project documentation and review.`
             },
             { role: 'user', content: finalTranscript }
           ],
