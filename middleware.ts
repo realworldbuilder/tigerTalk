@@ -1,4 +1,5 @@
 import { authMiddleware } from '@clerk/nextjs';
+import { NextResponse } from 'next/server';
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
@@ -10,6 +11,7 @@ export default authMiddleware({
     '/api(.*)',              // API routes
     '/favicon.ico',          // Favicon
     '/images(.*)',           // Public images
+    '/_next/(.*)',           // Next.js assets
   ],
   
   // Handle redirects for unauthenticated users
@@ -18,7 +20,7 @@ export default authMiddleware({
     if (!auth.userId && !auth.isPublicRoute) {
       const signInUrl = new URL('https://accounts.tigertalk.app/sign-in');
       signInUrl.searchParams.set('redirect_url', req.url);
-      return Response.redirect(signInUrl);
+      return NextResponse.redirect(signInUrl);
     }
   },
 });
