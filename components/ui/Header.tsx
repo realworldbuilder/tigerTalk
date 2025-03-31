@@ -59,11 +59,18 @@ export default async function Header() {
               />
             </>
           ) : (
-            <Link href="/dashboard">
-              <button className="rounded-lg bg-gray-800 px-3 py-1 text-xs text-white hover:bg-gray-700 sm:text-sm sm:px-4 md:px-6 md:py-2 md:text-base">
-                Sign in
-              </button>
-            </Link>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <Link href="/sign-up">
+                <button className="rounded-lg border border-gray-800 px-3 py-1 text-xs text-gray-800 hover:bg-gray-100 sm:text-sm sm:px-4 md:px-6 md:py-2 md:text-base">
+                  Sign up
+                </button>
+              </Link>
+              <Link href="/sign-in">
+                <button className="rounded-lg bg-gray-800 px-3 py-1 text-xs text-white hover:bg-gray-700 sm:text-sm sm:px-4 md:px-6 md:py-2 md:text-base">
+                  Sign in
+                </button>
+              </Link>
+            </div>
           )}
         </div>
       </div>

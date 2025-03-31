@@ -4,9 +4,15 @@ import { authMiddleware } from '@clerk/nextjs';
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
-  // Make all routes public by default
+  // Only make public routes public
   publicRoutes: [
-    '/(.*)',  // Makes all routes public by default
+    '/',                     // Homepage
+    '/sign-in(.*)',          // All sign-in routes
+    '/sign-up(.*)',          // All sign-up routes
+    '/api(.*)',              // API routes
+    '/_next/static(.*)',     // Next.js static files
+    '/favicon.ico',          // Favicon
+    '/images(.*)',           // Public images
   ],
   
   // Return true to continue, false to deny access
